@@ -1,0 +1,48 @@
+.sidebar {
+  display: none;
+}
+
+.sidebarnav .nav {
+  margin-bottom: 20px;
+}
+
+.sidebarnav .nav-link {
+  border-radius: 0;
+  padding: .02rem 1rem;
+}
+
+.sidebarnav .nav-item {
+  width: 100%;
+}
+
+.bottom {
+  margin-bottom: 50px;
+}
+
+.sidebarnav {
+  position: fixed;
+  top: 51px;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  padding: 20px 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border-right: 1px solid #eee;
+}
+
+#page-wrapper {
+  margin: 0px;
+}
+
+.dashboard-widget {
+  min-height: 300px;
+}
+
+.widgetListing {
+  float: left;
+}
+
+.clickable {
+  cursor: pointer
+}

@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>
+		<%= title %>
+	</title>
+
+	<base href="/">
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="stylesheets/bootstrap.min.css">
+	<link rel="stylesheet" href="stylesheets/font-awesome.min.css">
+	<link rel="stylesheet" href="stylesheets/metisMenu.min.css">
+	<link rel="stylesheet" href="stylesheets/jquery-ui.min.css">
+	<link rel="stylesheet" href="stylesheets/lobipanel.min.css">
+
+	<link rel="stylesheet" href="stylesheets/style.css">
+
+	<link rel="shortcut icon" href="favicon.ico">
+</head>
+
+<body>
+	<datalist id='datasourcelist'>
+		<% for(var i=0; i<datapoints.length; i++) { %>
+			<option value="<%=api%><%=datapoints[i].point%>">
+				<%=datapoints[i].point%>
+			</option>
+			<% } %>
+	</datalist>
+
+	<div id="wrapper">
+
+		<!-- Navigation -->
+		<nav class="navbar navbar-default" role="navigation" style="max-height: 10vh;">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/home">
+					<%= title %>
+				</a>
+			</div>
+			<!-- /.navbar-header -->
+			<ul class="nav navbar-top-links navbar-right">
+				<li>
+					<a href="settings">
+						<i class="fa fa-gear fa-fw"></i> Settings </a>
+				</li>
+				<li>
+					<a href="account">
+						<i class="fa fa-user fa-fw"></i> Account Management </a>
+				</li>
+				<li>
+					<a href="login">
+						<i class="fa fa-sign-out fa-fw"></i> Logout</a>
+				</li>
+			</ul>
+			<!-- /.navbar-top-links -->
+		</nav>
+
+		<div id="page-wrapper" style="min-height: 90vh;">
+
+			<div class="row">
+				<input type="hidden" id="userID" value="<%=user%>">
+				<div class="col-3">
+
+					<div class="row">
+						<div class="card w-100" style="height: 30vh;">
+							<div class="card-header bg-primary">
+								<h3 class="card-title text-light">
+									Dashboards
+									<i class="fa fa-file-text-o clickable float-right dashboardButton" id=""></i>
+								</h3>
+							</div>
+							<div id="dashboards" class="list-group list-group-flush" style="overflow-y: auto;">
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row" style="height: 5vh;"></div>
+
+					<div class="row">
+						<div class="card w-100" style="height: 50vh;">
+							<div class="card-header bg-primary">
+								<h3 class="card-title text-light">
+									Widgets
+									<i class="fa fa-file-text-o clickable float-right widgetButton" id=""></i>
+								</h3>
+							</div>
+							<div id="widgets" class="list-group list-group-flush" style="overflow-y: auto;">
+
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+				<div class="col">
+
+					<div class="card" style="min-height: 85vh;">
+						<div class="card-header bg-primary">
+							<h3 class="card-title text-light">
+								Dashboard Layout
+								<span id="loadOptions">
+									<span id="dashboardName"></span>
+									<input type="hidden" id="loadedDashboard" />
+									<i class="clickable fa fa-floppy-o float-right" id="saveLayout" style="margin-right: 10px;"></i>
+									<i class="clickable fa fa-eraser float-right" id="clearLayout" style="margin-right: 10px;"></i>
+									<i class="clickable fa fa-times float-right" id="unloadLayout" style="margin-right: 10px;"></i>
+								</span>
+							</h3>
+						</div>
+
+						<div class="card-body">
+
+							<div class="row">
+
+								<div class="col-4">
+									<div class="card bg-secondary" style="height: 75vh;">
+										<div class="card-body widgetContainer" id="container1">
+										</div>
+									</div>
+								</div>
+
+								<div class="col-4">
+									<div class="card bg-secondary" style="height: 75vh;">
+										<div class="card-body widgetContainer" id="container2">
+										</div>
+									</div>
+								</div>
+
+								<div class="col-4">
+									<div class="card bg-secondary" style="height: 75vh;">
+										<div class="card-body widgetContainer" id="container3">
+										</div>
+									</div>
+								</div>
+
+							</div>
+
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+		<!-- /#page-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+
+	<!-- Modal -->
+	<div class="modal fade" id="dashboardModal" tabindex="-1" role="dialog" aria-labelledby="dashboardModalLabel" aria-hidden="true"
+	 data-keyboard="false" data-backdrop="static">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="dashboardModalLabel">Dashboard</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form id="dashboardForm">
+						<div class="form-group">
+							<label for="name" class="col-form-label">Name</label>
+							<input type="text" class="form-control" name="name" id="name" required>
+							<input type="hidden" class="form-control" name="_id" id="id">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeDashboard">Close</button>
+					<button type="button" class="btn btn-primary" id="saveDashboard">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="widgetModal" tabindex="-1" role="dialog" aria-labelledby="widgetModalLabel" aria-hidden="true"
+	 data-keyboard="false" data-backdrop="static">
+		<div class="modal-dialog" role="document" style="width: 80vw; max-width: 80vw; max-height: 80vh;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="widgetModalLabel">Widget</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body" id="widgetForm">
+					<form id="widgetValidation" novalidate>
+						<div class="form-group row">
+							<label class="col-2 col-form-label">Name</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" placeholder="Widget name" name="name" required>
+								<input type="hidden" class="form-control" name="_id" id="widgetID">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-2 col-form-label">Description</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" placeholder="Short description for the widget" name="description">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-2 col-form-label">Options</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" placeholder="Additional options (JSON format)" name="options">
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<label class="col-2 col-form-label">Series
+								<button class="btn btn-link" onclick="$(this).parent().parent().next().append($('#widgetListingStub').clone().show().removeAttr('id'))"
+								 type="button">
+									<i class="fa fa-plus fa-fw"></i>
+								</button>
+							</label>
+						</div>
+						<div id="seriesContainer" class="col-12" style="overflow-y: auto; overflow-x: hidden; max-height: 30vh;">
+
+							<div class="widgetSeries">
+								<div class="row" style="margin-bottom: 10px;">
+									<div class="col-1">
+										<span class="btn btn-danger" onclick="$(this).parent().parent().parent().remove()">
+											<i class="fa fa-trash"></i>
+										</span>
+									</div>
+									<div class="col-2">
+										<select class="form-control custom-select" id="exampleFormControlSelect1" name="type" required>
+											<option selected disabled>Series type</option>
+											<option>Text</option>
+											<option>TextBinary</option>
+											<option>LD2100</option>
+											<option>Line</option>
+											<option>Bar</option>
+											<option>Scatter</option>
+											<option>Tree</option>
+											<option>Treemap</option>
+											<option>Pie</option>
+											<option>Radar</option>
+											<option>Boxplot</option>
+											<option>Candlestick</option>
+											<option>Heatmap</option>
+											<option>Gauge</option>
+											<option>Text</option>
+										</select>
+									</div>
+									<div class="col-2">
+										<input type="text" class="form-control" name="label" placeholder="Name" required>
+									</div>
+									<div class="col-2">
+										<input type="text" class="form-control" name="options" placeholder="Options (JSON Format)">
+									</div>
+									<div class="col input-group">
+										<!-- <input type="url" class="form-control" name="datasource" placeholder="URL for data source" required> -->
+										<input name="datasource" list='datasourcelist' class="form-control" placeholder="URL for data source" required>
+										<!-- <span class="input-group-addon">
+											<i class="fa fa-info-circle fa-fw"></i>
+										</span> -->
+									</div>
+									<div class="col-1 row">
+										<button type="button" class="btn btn-link col-1 offset-1" onclick="$(this).parent().closest('div').prev().append($('<input>', {name: 'datasource', list: 'datasourcelist', type: 'url', class: 'form-control datasources', placeholder: 'URL for data source'}))">
+											<i class="fa fa-plus fa-fw"></i>
+										</button>
+										<button type="button" class="btn btn-link col-1 offset-1" onclick="if($(this).parent().closest('div').prev().children().length > 1){$(this).parent().closest('div').prev().children().last().remove()}">
+											<i class="fa fa-minus fa-fw"></i>
+										</button>
+									</div>
+								</div>
+								<hr/>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeWidget">Close</button>
+					<button type="button" class="btn btn-primary" id="saveWidget">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="widgetListingStub" style="display: none;" class="widgetSeries">
+		<div class="row" style="margin-bottom: 10px;">
+			<div class="col-1">
+				<span class="btn btn-danger" onclick="$(this).parent().parent().parent().remove()">
+					<i class="fa fa-trash"></i>
+				</span>
+			</div>
+			<div class="col-2">
+				<select class="form-control custom-select" id="exampleFormControlSelect1" name="type" required>
+					<option selected disabled>Series type</option>
+					<option>Text</option>
+					<option>TextBinary</option>
+					<option>LD2100</option>
+					<option>Line</option>
+					<option>Bar</option>
+					<option>Scatter</option>
+					<option>Tree</option>
+					<option>Treemap</option>
+					<option>Pie</option>
+					<option>Radar</option>
+					<option>Boxplot</option>
+					<option>Candlestick</option>
+					<option>Heatmap</option>
+					<option>Gauge</option>
+					<option>Text</option>
+				</select>
+			</div>
+			<div class="col-2">
+				<input type="text" class="form-control" placeholder="Name" name="label" required>
+			</div>
+			<div class="col-2">
+				<input type="text" class="form-control" name="options" placeholder="Options (JSON Format)">
+			</div>
+			<div class="col input-group">
+				<input name="datasource" list='datasourcelist' class="form-control" placeholder="URL for data source" required>
+				<!-- <span class="input-group-addon">
+					<i class="fa fa-info-circle fa-fw"></i>
+				</span> -->
+			</div>
+			<div class="col-1 row">
+				<button type="button" class="btn btn-link col-1 offset-1" onclick="$(this).parent().closest('div').prev().append($('<input>', {name: 'datasource', list: 'datasourcelist', type: 'url', class: 'form-control datasources', placeholder: 'URL for data source'}))">
+					<i class="fa fa-plus fa-fw"></i>
+				</button>
+				<button type="button" class="btn btn-link col-1 offset-1" onclick="if($(this).parent().closest('div').prev().children().length > 1){$(this).parent().closest('div').prev().children().last().remove()}">
+					<i class="fa fa-minus fa-fw"></i>
+				</button>
+			</div>
+		</div>
+		<hr/>
+	</div>
+
+	<!-- js -->
+	<script src="javascripts/jquery-3.2.1.min.js"></script>
+	<script src="javascripts/jquery-ui.min.js"></script>
+	<script src="javascripts/popper.min.js"></script>
+	<script src="javascripts/bootstrap.min.js"></script>
+	<script src="javascripts/bootstrap.bundle.min.js"></script>
+	<script src="javascripts/sb-admin-2.min.js"></script>
+	<script src="javascripts/lobipanel.min.js"></script>
+	<script src="javascripts/metisMenu.min.js"></script>
+	<script src="javascripts/echarts.js"></script>
+
+	<script>
+		function refreshWidgets() {
+			$.ajax({
+				url: '/components/widgets',
+				type: 'GET',
+				contentType: 'application/json',
+			}).done(function (req) {
+				$('#widgets').empty()
+				var divcontainer = $('#widgets').get(0)
+				// new Elements
+				for (var j = 0; j < req.length; j++) {
+					var div = $('<div/>', {
+						class: 'list-group-item',
+						id: 'widget_' + req[j]._id
+					}).appendTo(divcontainer)
+					div.text(req[j].name)
+
+					var delbtn = $('<i/>', {
+						class: 'fa fa-trash clickable widgetButton float-right',
+						type: "button"
+					}).appendTo(div).css('margin-left', '10px')
+					delbtn.click((e) => {
+						if (confirm("Are you sure you want to delete this widget?\nThis cannot be undone.")) {
+							$.ajax({
+								url: '/settings/widget/' + $(e.target).parent().closest('div').get(0).id.replace('widget_', ''),
+								type: 'delete',
+								contentType: 'application/json',
+								dataType: 'json'
+							}).done(function (req) {
+								refreshWidgets();
+							})
+						}
+					})
+
+					var btn = $('<i/>', {
+						class: 'fa fa-pencil clickable widgetButton float-right',
+						'data-widget': JSON.stringify(req[j]),
+						type: "button"
+					}).appendTo(div)
+
+					btn.click((e) => {
+						var formData = JSON.parse(e.target.getAttribute('data-widget'))
+						$('#widgetModal').modal('show')
+
+						for (var i = 0; i < $('#widgetModal .form-group .form-control').length; i++) {
+							$($('#widgetModal .form-group .form-control').get(i)).val(formData[$($('#widgetModal .form-group .form-control').get(i)).attr('name')])
+						}
+
+						for (var i = 0; i < formData.series.length; i++) {
+							var series = formData.series[i]
+							if (i > 0 && formData.series.length > $('#seriesContainer .widgetSeries').length) {
+								$('#seriesContainer').append($('#widgetListingStub').clone().show().removeAttr('id'))
+							}
+							var widgetSeries = $('#seriesContainer .widgetSeries').get(i)
+							for (var j = 0; j < $(widgetSeries).find('.form-control').not('input[name="datasource"]').length; j++) {
+								$($(widgetSeries).find('.form-control').not('input[name="datasource"]').get(j)).val(series[$($(widgetSeries).find('.form-control').not('input[name="datasource"]').get(j)).attr('name')])
+							}
+							for (var j = 0; j < series.datasources.length; j++) {
+								if (j > 0 && series.datasources.length > $(widgetSeries).find('input[name="datasource"]').length) {
+									$($(widgetSeries).find('button').get(0)).parent().closest('div').prev().append($('<input>', { name: 'datasource', list: 'datasourcelist', type: 'url', class: 'form-control datasources', placeholder: 'URL for data source' }))
+								}
+
+								var datasource = $(widgetSeries).find('input[name="datasource"]').get(j)
+
+								$(datasource).val(series.datasources[j])
+							}
+
+						}
+					})
+
+					div.draggable({
+						connectToSortable: '.widgetContainer',
+						helper: function (e) {
+							var original = $(e.target).hasClass("ui-draggable") ? $(e.target) : $(e.target).closest(".ui-draggable");
+							var obj = original.clone().css({
+								width: '100%' // or outerWidth*
+							})
+
+							obj.find('.fa.fa-trash').remove()
+							var btn = obj.find('.fa.fa-pencil').get(0)
+							$(btn).removeClass('fa-pencil').addClass('fa-trash')
+							$(btn).click((e) => {
+								$(e.target).parent().closest('div').remove()
+							})
+
+							return obj
+						},
+						revertDuration: 0
+					})
+				}
+			});
+		}
+
+		function refreshBoards() {
+			$.ajax({
+				url: '/components/dashboards',
+				type: 'GET',
+				contentType: 'application/json',
+			}).done(function (req) {
+				$('#dashboards').empty()
+				var divcontainer = $('#dashboards').get(0)
+				// new Elements
+				for (var j = 0; j < req.length; j++) {
+					var div = $('<div/>', {
+						class: 'list-group-item',
+						id: 'dashboards_' + req[j]._id
+					}).appendTo(divcontainer)
+					div.text(req[j].name)
+
+					var delbtn = $('<i/>', {
+						class: 'fa fa-trash clickable widgetButton float-right',
+						type: "button"
+					}).appendTo(div).css('margin-left', '10px')
+
+					delbtn.click((e) => {
+						if (confirm("Are you sure you want to delete this dashboard?\nThis cannot be undone.")) {
+							$.ajax({
+								url: '/settings/dashboard/' + $(e.target).parent().closest('div').get(0).id.replace('dashboards_', ''),
+								type: 'delete',
+								contentType: 'application/json',
+								dataType: 'json'
+							}).done(function (req) {
+								refreshBoards();
+							})
+						}
+					})
+
+					var loadBtn = $('<i/>', {
+						class: 'fa fa-folder-open-o clickable widgetButton float-right',
+						'data-dashboard': JSON.stringify(req[j])
+					}).appendTo(div).css('margin-left', '10px')
+					loadBtn.click((e) => {
+						var formData = JSON.parse(e.target.getAttribute('data-dashboard'))
+						$('#loadOptions').show()
+						loadBoard(formData)
+					})
+
+					var btn = $('<i/>', {
+						class: 'fa fa-pencil clickable widgetButton float-right',
+						'data-dashboard': JSON.stringify(req[j])
+					}).appendTo(div)
+
+					btn.click((e) => {
+						var form = $('#dashboardModal').find('form')
+						var formData = JSON.parse(e.target.getAttribute('data-dashboard'))
+						$('#dashboardModal').modal('show')
+						form[0].name.value = formData.name
+						form[0].id.value = formData._id
+					})
+
+				}
+			});
+		}
+
+		function loadBoard(dashboard) {
+			$('#loadedDashboard').get(0).value = dashboard._id
+			$('#dashboardName').text('(' + dashboard.name + ')')
+			for (var i = 0; i < dashboard.containers.length; i++) {
+				var container = $('#container' + (i + 1)).get(0)
+				$(container).empty()
+				for (var j = 0; j < dashboard.containers[i].length; j++) {
+					var copy = $('#widget_' + (dashboard.containers[i][j]).toString()).get(0).cloneNode(true)
+					$(copy).find('.fa.fa-trash').remove()
+					var btn = $(copy).find('.fa.fa-pencil').get(0)
+					$(btn).removeClass('fa-pencil').addClass('fa-trash')
+					$(btn).click((e) => {
+						$(e.target).parent().closest('div').remove()
+					})
+					$(container).append(copy)
+				}
+			}
+		}
+
+		// function previewSource(e) {
+		// 	inputObj = $(e.target).parent().parent().closest('div').find('input[name="datasource"]')
+		// 	var sourceurl = $(e.target).parent().parent().closest('div').find('input[name="datasource"]').val()
+		// 	console.log(sourceurl)
+		// 	$.ajax({
+		// 		url: sourceurl,
+		// 		xhrFields: {
+		// 			withCredentials: true
+		// 		},
+		// 		headers: {
+		// 			'Authorization': 'Basic ' + btoa('myuser:mypswd')
+		// 		},
+		// 		type: 'GET',
+		// 		contentType: 'application/json',
+		// 		dataType: 'json'
+		// 	}).done((request) => {
+		// 		console.log(request)
+		// 		console.log(inputObj)
+		// 	})
+		// }
+
+		$(() => {
+			refreshWidgets()
+			refreshBoards()
+
+			$('#loadOptions').hide()
+			$('.dashboardButton').click(() => {
+				$('#dashboardModal').modal('show')
+			})
+
+			// $('span.input-group-addon>i').click(previewSource)
+
+			$('.widgetButton').click((e) => {
+				var form = $('#widgetModal').find('form')
+				$('#widgetModal').modal('show')
+				if (!!e.target.getAttribute('data-widget')) {
+					var formData = JSON.parse(e.target.getAttribute('data-widget'))
+				}
+			})
+
+			$("#widgets div").draggable({
+				connectToSortable: '.widgetContainer',
+				helper: function (e) {
+					var original = $(e.target).hasClass("ui-draggable") ? $(e.target) : $(e.target).closest(".ui-draggable");
+					var obj = original.clone().css({
+						width: '100%' // or outerWidth*
+					})
+
+					obj.find('.btn').remove()
+
+					return obj
+				},
+				revertDuration: 0
+			})
+
+			$(".widgetContainer").sortable({
+				connectWith: '.widgetContainer',
+				revert: true,
+			})
+
+			$(".widgetContainer div").draggable({
+				connectToSortable: '.widgetContainer',
+				revert: "invalid",
+			})
+
+			$('#closeWidget').click(() => {
+				$('.widgetSeries').not(':first').not('#widgetListingStub').remove()
+				$('.widgetSeries').not('#widgetListingStub').find('input[name="datasource"]').not(':first').remove()
+				$('#widgetModal .form-control').val('')
+			})
+
+			$('#closeDashboard').click(() => {
+				$('#dashboardModal .form-control').val('')
+			})
+
+			$('#saveLayout').click(() => {
+				var layout = []
+
+				var containers = $('.widgetContainer')
+
+				containers.each((el, obj) => {
+					var widgts = obj.getElementsByTagName('div')
+					var divArray = []
+					for (var w = 0; w < widgts.length; w++) {
+						divArray.push(widgts[w].id.replace('widget_', ''))
+					}
+					layout.push(divArray)
+				})
+				var data = {
+					_id: $('#loadedDashboard').get(0).value,
+					user: $('#userID').val(),
+					containers: layout
+				}
+
+				$.ajax({
+					url: '/settings',
+					type: 'POST',
+					contentType: 'application/json',
+					data: JSON.stringify(data),
+					dataType: 'json'
+				}).done(function (req) {
+
+					refreshBoards();
+
+					alert('Dashboard Layout saved')
+				});
+			})
+
+			$('#unloadLayout').click(() => {
+				$('#loadedDashboard').val('')
+				$('#dashboardName').text('')
+				var containers = $('.widgetContainer')
+				containers.each((el, obj) => {
+					$(obj).children().remove()
+				})
+				$('#loadOptions').hide()
+			})
+
+			$('#clearLayout').click(() => {
+				var containers = $('.widgetContainer')
+
+				containers.each((el, obj) => {
+					$(obj).children().remove()
+				})
+
+			})
+
+			$('#saveWidget').click(() => {
+				$('#widgetValidation').addClass('was-validated')
+				if ($('#widgetValidation').get(0).checkValidity()) {
+					var obj = {}
+
+					// get main data
+					for (var i = 0; i < $('#widgetModal .form-group .form-control').length; i++) {
+						obj[$($('#widgetModal .form-group .form-control').get(i)).attr('name')] = $($('#widgetModal .form-group .form-control').get(i)).val()
+					}
+					obj.series = []
+
+					for (var i = 0; i < $('.widgetSeries').not('#widgetListingStub').length; i++) {
+						var tempSeries = $('.widgetSeries').not('#widgetListingStub').get(i)
+
+						var seriesObj = { datasources: [] }
+						for (var j = 0; j < $(tempSeries).find('.form-control').not('input[name="datasource"]').length; j++) {
+							seriesObj[$($(tempSeries).find('.form-control').not('input[name="datasource"]').get(j)).attr('name')] = $($(tempSeries).find('.form-control').not('input[name="datasource"]').get(j)).val()
+						}
+
+						for (var j = 0; j < $(tempSeries).find('input[name="datasource"]').length; j++) {
+							seriesObj.datasources.push($($(tempSeries).find('input[name="datasource"]').get(j)).val())
+						}
+						obj.series.push(seriesObj)
+					}
+
+					var method = 'POST'
+					var id = $('#widgetID').get(0)
+					if (!!id.value) {
+						method = 'PUT'
+					}
+
+					obj.user = $('#userID').val()
+
+					$.ajax({
+						url: '/settings/widget',
+						type: method,
+						contentType: 'application/json',
+						data: JSON.stringify(obj),
+						dataType: 'json'
+					}).done(function (req) {
+						refreshWidgets();
+						$('.widgetSeries').not(':first').not('#widgetListingStub').remove()
+						$('.widgetSeries').not('#widgetListingStub').find('input[name="datasource"]').not(':first').remove()
+						$('#widgetModal .form-control').val('')
+						$('#widgetModal').modal('hide')
+						$('#widgetValidation').removeClass('was-validated')
+					});
+				}
+			})
+
+			$('#widgetModal').on('hide.bs.modal', () => {
+				$('.widgetSeries').not(':first').not('#widgetListingStub').remove()
+				$('.widgetSeries').not('#widgetListingStub').find('input[name="datasource"]').not(':first').remove()
+				$('#widgetModal .form-control').val('')
+				$('#widgetValidation').removeClass('was-validated')
+			})
+
+			$('#saveDashboard').click(() => {
+				var form = $('#dashboardForm')[0]
+				$(form).addClass('was-validated')
+				if (form.checkValidity()) {
+					var data = {
+						user: $('#userID').val(),
+						name: form.name.value,
+					}
+
+					var method = 'POST'
+					if (!!form.id.value) {
+						method = 'PUT',
+							data._id = form.id.value
+					}
+
+					$.ajax({
+						url: '/settings/dashboard',
+						type: method,
+						contentType: 'application/json',
+						data: JSON.stringify(data),
+						dataType: 'json'
+					}).done(function (req) {
+						if (req.errMsg) {
+							alert(req.errMsg)
+						}
+						refreshBoards();
+						form.reset()
+						$('#dashboardModal').modal('hide')
+						$(form).removeClass('was-validated')
+					});
+				}
+			})
+
+		})
+	</script>
+
+</body>
+
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<title>
+		<%=title%>
+	</title>
+
+	<!-- Bootstrap core CSS -->
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="stylesheets/bootstrap.min.css">
+	<link rel="stylesheet" href="stylesheets/font-awesome.min.css">
+	<link rel="stylesheet" href="stylesheets/jquery-ui.min.css">
+
+    <link rel="shortcut icon" href="favicon.ico">
+
+	<!-- Custom fonts for this template -->
+	<link href="stylesheets/lib/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
+	<!-- Custom styles for this template -->
+	<link href="stylesheets/landing-page.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+	<div id="wrapper">
+		<!-- Navigation -->
+		<nav class="navbar navbar-default" role="navigation" style="margin-bottom: 0; max-height: 10vh">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/">
+					<%= title %>
+				</a>
+			</div>
+			<!-- /.navbar-header -->
+			<ul class="nav navbar-top-links navbar-right">
+				<li>
+					<a href="settings">
+						<i class="fa fa-gear fa-fw"></i> Settings </a>
+				</li>
+				<li>
+					<a href="account">
+						<i class="fa fa-user fa-fw"></i> Account Management </a>
+				</li>
+				<li>
+					<a href="login">
+						<i class="fa fa-sign-out fa-fw"></i> Logout</a>
+				</li>
+			</ul>
+			<!-- /.navbar-top-links -->
+		</nav>
+		<div id="page-wrapper" style="min-height: 90vh;">
+			<!-- Icons Grid -->
+			<section class="features-icons bg-light text-center">
+				<div class="container">
+					<div>
+						<h2>Subscription upgrades</h2>
+					</div>
+					<div class="card-group">
+						<div class="card">
+							<div class="card-header">
+								<h3 class="card-title">Free</h3>
+								<p class="card-subtitle">Instant access to your dashboard and components</p>
+							</div>
+							<div class="card-body">
+								<p class="card-text">Absolutely free</p>
+							</div>
+							<ul class="list-group list-group-flush">
+								<li class="list-group-item">1 Customizable Dashboard</li>
+								<li class="list-group-item">Unlimited Personal Widgets</li>
+								<li class="list-group-item">5 Data sources from anywhare in the Internet</li>
+							</ul>
+							<div class="card-footer">
+								<!-- <A class="btn btn-success" HREF="https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_subscr-find&alias=Y97GAQFZAMJ6J">
+							<IMG SRC="https://www.sandbox.paypal.com/en_US/i/btn/btn_unsubscribe_LG.gif" BORDER="0">
+						</A> -->
+								<a href="/billing/free" class="btn btn-success disabled">Current Plan</a>
+							</div>
+						</div>
+						<div class="card">
+							<div class="card-header">
+								<h3 class="card-title">Paid</h3>
+								<p class="card-subtitle">The package recommended for all your personal needs</p>
+							</div>
+							<div class="card-body">
+								<h4 class="card-title">$20/month</p>
+							</div>
+							<ul class="list-group list-group-flush">
+								<li class="list-group-item">5 Customizable Dashboard</li>
+								<li class="list-group-item">Unlimited Personal Widgets</li>
+								<li class="list-group-item">25 Data sources from anywhare in the Internet</li>
+							</ul>
+							<div class="card-footer">
+								<form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
+									<input type="hidden" name="cmd" value="_s-xclick">
+									<input type="hidden" name="rm" value="2">
+									<input type="hidden" name="custom" value="<%=user%>">
+									<input type="hidden" name="return" value="http://localhost:8080/success">
+									<input type="hidden" name="hosted_button_id" value="63BZTLUMUYZ2G">
+									<input type="submit" class="btn btn-primary <% if (userObj.sub.type > -1) { %> disabled <% } %>" <% if (userObj.sub.type > -1) { %> disabled
+									<% } %> border="0" name="submit" alt="PayPal - The safer, easier way to pay online!" value="Subscribe for $20/month">
+										<img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+								</form>
+
+								<!-- <a href="https://www.sandbox.paypal.com/cgi-bin/webscr?return=http://localhost:8080/success&rm=2&cmd=_s-xclick&hosted_button_id=63BZTLUMUYZ2G" class="btn btn-primary">Subscribe for $20/month</a> -->
+							</div>
+						</div>
+						<div class="card">
+							<div class="card-header">
+								<h3 class="card-title">Pay more
+									<sup>*</sup>
+								</h3>
+								<p class="card-subtitle">Personal package still not enough? Top-up now!</p>
+							</div>
+							<div class="card-body">
+								<h4>+$5/month</h4>
+							</div>
+							<ul class="list-group list-group-flush">
+								<li class="list-group-item">+1 Customizable Dashboard</li>
+								<li class="list-group-item">Unlimited Personal Widgets</li>
+								<li class="list-group-item">+5 Data sources </li>
+							</ul>
+							<div class="card-footer">
+								<form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
+									<input type="hidden" name="cmd" value="_s-xclick">
+									<input type="hidden" name="rm" value="2">
+									<input type="hidden" name="custom" value="<%=user%>">
+									<input type="hidden" name="return" value="http://localhost:8080/success">
+									<input type="hidden" name="hosted_button_id" value="NZ5X2MWF7TTKJ">
+									<input type="submit" class="btn btn-primary <% if (userObj.sub.type == -1) { %> disabled <% } %>" <% if (userObj.sub.type == -1) { %> disabled
+										<% } %> border="0" name="submit" value="Upgrade for +$5/month">
+									<img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+								</form>
+
+								<!-- <a href="/billing/additive" class="btn btn-primary">Upgrade for +$5/month</a> -->
+							</div>
+						</div>
+					</div>
+					<p class="text-left">* - Top-up package for the Personal plan adding the an additional dashboard, widgets and datasourse per package
+					</p>
+				</div>
+
+			</section>
+
+			<!-- Footer -->
+			<footer class="footer">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-6 h-100 text-center text-lg-left my-auto">
+							<ul class="list-inline mb-2">
+								<li class="list-inline-item">
+									<a href="#">About</a>
+								</li>
+								<li class="list-inline-item">&sdot;</li>
+								<li class="list-inline-item">
+									<a href="contact">Contact</a>
+								</li>
+								<li class="list-inline-item">&sdot;</li>
+								<li class="list-inline-item">
+									<a href="termsofuse">Terms of Use</a>
+								</li>
+								<li class="list-inline-item">&sdot;</li>
+								<li class="list-inline-item">
+									<a href="privacypolicy">Privacy Policy</a>
+								</li>
+							</ul>
+							<p class="text-muted small mb-4 mb-lg-0">&copy; Bulletproofdev.com Inc. 2018. All Rights Reserved.</p>
+						</div>
+						<div class="col-lg-6 h-100 text-center text-lg-right my-auto">
+							<ul class="list-inline mb-0">
+								<li class="list-inline-item mr-3">
+									<a href="#">
+										<i class="fa fa-facebook fa-2x fa-fw"></i>
+									</a>
+								</li>
+								<li class="list-inline-item mr-3">
+									<a href="#">
+										<i class="fa fa-twitter fa-2x fa-fw"></i>
+									</a>
+								</li>
+								<li class="list-inline-item">
+									<a href="#">
+										<i class="fa fa-instagram fa-2x fa-fw"></i>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</div>
+	<!-- Bootstrap core JavaScript -->
+	<script src="javascripts/jquery-3.2.1.min.js"></script>
+	<script src="javascripts/jquery-ui.min.js"></script>
+	<script src="javascripts/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

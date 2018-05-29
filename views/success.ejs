@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>
+		<%=title%>
+	</title>
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+	<link rel="stylesheet" href="/stylesheets/font-awesome.min.css">
+
+	<link rel="stylesheet" href="/stylesheets/style.css">
+
+    <link rel="shortcut icon" href="favicon.ico">
+</head>
+
+<body>
+
+	<nav class="navbar navbar-default">
+		<div class="container">
+			<a class="navbar-brand" href="/">
+				<%=title%>
+			</a>
+		</div>
+	</nav>
+
+	<div class="container">
+
+		<div class="jumbotron">
+            <h1 class="display-4">Thank you!</h1>
+            <p class="lead">Your payment has been received! Thank you for your subscription.
+            </p>
+            <p class="lead">You will be redirected back to the accounts page in a few moments.</p>
+        </div>
+
+	</div>
+
+	<!-- js -->
+	<script src="/javascripts/jquery-3.2.1.min.js"></script>
+	<script src="/javascripts/jquery-ui.min.js"></script>
+	<script src="/javascripts/popper.min.js"></script>
+	<script src="/javascripts/bootstrap.min.js"></script>
+	<script src="/javascripts/bootstrap.bundle.min.js"></script>
+	<script src="/javascripts/jquery.validate.js"></script>
+	<script src="/javascripts/additional-methods.js"></script>
+
+	<script>
+		(() => {
+			setTimeout(() => {
+				location.href = '/account'
+			}, 5000)
+		})()
+	</script>
+
+
+</body>
+
+</html>

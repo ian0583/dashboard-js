@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>
+		<%=title%>
+	</title>
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+	<link rel="stylesheet" href="/stylesheets/font-awesome.min.css">
+
+	<link rel="stylesheet" href="/stylesheets/style.css">
+
+    <link rel="shortcut icon" href="favicon.ico">
+</head>
+
+<body>
+
+	<nav class="navbar navbar-default">
+		<div class="container">
+			<a class="navbar-brand" href="/">
+				<%=title%>
+			</a>
+			<!-- <a class="btn btn-primary" href="/login">Login</a> -->
+		</div>
+	</nav>
+
+	<div class="container">
+
+		<div class="card">
+			<div class="card-body">
+				<h5 class="card-title">Sign up!</h5>
+				<br/>
+				<form id="registrationForm" method="POST" action="/register">
+					<div class="form-group">
+						<label for="exampleInputEmail1">Email address</label>
+						<input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter email" required
+						 value="<%-email%>">
+						<input type="hidden" class="form-control" id="type" name="type" value="<%=substype%>">
+						<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+					</div>
+					<div class="form-group">
+						<label for="exampleInputEmail1">Username</label>
+						<input type="text" class="form-control" id="username" name="username" placeholder="Enter username" required minlength="3">
+					</div>
+					<div class="form-group">
+						<label for="exampleInputPassword1">Password</label>
+						<input type="password" class="form-control" id="password" name="password" placeholder="Password" required minlength="8">
+					</div>
+					<div class="form-group">
+						<label for="exampleInputPassword1">Password</label>
+						<input type="password" class="form-control" id="password2" name="password2" placeholder="Re-type your password" required
+						 minlength="8">
+					</div>
+					<button type="submit" class="btn btn-primary">Submit</button>
+				</form>
+			</div>
+		</div>
+
+	</div>
+
+	<!-- js -->
+	<script src="/javascripts/jquery-3.2.1.min.js"></script>
+	<script src="/javascripts/jquery-ui.min.js"></script>
+	<script src="/javascripts/popper.min.js"></script>
+	<script src="/javascripts/bootstrap.min.js"></script>
+	<script src="/javascripts/bootstrap.bundle.min.js"></script>
+	<script src="/javascripts/jquery.validate.js"></script>
+	<script src="/javascripts/additional-methods.js"></script>
+
+	<script>
+		(() => {
+			$("#registrationForm").validate({
+				rules: {
+					password: "required",
+					password2: {
+						equalTo: "#password"
+					},
+					username: {
+						required: true,
+						remote: {
+							url: "/validation/username",
+							type: 'get',
+							data: {
+								username: () => {
+									return $('#username').val()
+								}
+							}
+						}
+					},
+					email: {
+						required: true,
+						remote: {
+							url: "/validation/email",
+							type: 'get',
+							data: {
+								email: () => {
+									return $('#email').val()
+								}
+							}
+						}
+					}
+				},
+				messages: {
+					username: {
+						remote: "The username you provided is already in use."
+					},
+					email: {
+						remote: "The email address you provided is already in use."
+					}
+				}
+			})
+
+		})()
+	</script>
+
+</body>
+
+</html>

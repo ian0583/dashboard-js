@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>
+        <%= title %>
+    </title>
+
+    <base href="/">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="stylesheets/bootstrap.min.css">
+    <link rel="stylesheet" href="stylesheets/font-awesome.min.css">
+    <link rel="stylesheet" href="stylesheets/metisMenu.min.css">
+    <link rel="stylesheet" href="stylesheets/jquery-ui.min.css">
+    <link rel="stylesheet" href="stylesheets/lobipanel.min.css">
+
+    <link rel="stylesheet" href="stylesheets/style.css">
+
+    <link rel="shortcut icon" href="favicon.ico">
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default" role="navigation" style="margin-bottom: 0; max-height: 10vh">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/home">
+                    <%= title %>
+                </a>
+            </div>
+            <!-- /.navbar-header -->
+            <ul class="nav navbar-top-links navbar-right">
+                <li>
+                    <a href="settings">
+                        <i class="fa fa-gear fa-fw"></i> Settings </a>
+                </li>
+                <li>
+                    <a href="account">
+                        <i class="fa fa-user fa-fw"></i> Account Management </a>
+                </li>
+                <li>
+                    <a href="login">
+                        <i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                </li>
+            </ul>
+            <!-- /.navbar-top-links -->
+        </nav>
+
+        <div id="page-wrapper" style="min-height: 90vh">
+
+            <% if (status == 1) {%>
+
+                <div class="jumbotron">
+                    <h1 class="display-4">Welcome!</h1>
+                    <p class="lead">It seems you haven't verified your account yet. We sent you an email with instructions on how to verify
+                        your account.
+                    </p>
+                    <p class="lead">If you can't find the email we sent, we can send you a new one!</p>
+                    <p class="lead">
+                        <a class="btn btn-primary btn-lg" href="/home/resend" role="button">Resend verification email</a>
+                    </p>
+                </div>
+
+                <% } %>
+
+                    <br/>
+                    <br/>
+
+                    <div class="row">
+
+                        <div class="col-6">
+
+                            <div class="card w-100" style="min-height: 50vh;">
+                                <div class="card-header bg-primary">
+                                    <h3 class="card-title text-light">
+                                        Your Dashboards
+                                    </h3>
+                                </div>
+                                <div id="dashboards" class="list-group list-group-flush" style="max-height: 70vh; overflow-y: auto;">
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-6">
+
+                            <div class="card w-100" style="min-height: 50vh;">
+                                <div class="card-header bg-primary">
+                                    <h3 class="card-title text-light">
+                                        Your Data points
+                                    </h3>
+                                </div>
+                                <div id="datapoints" class="list-group list-group-flush" style="max-height: 70vh; overflow-y: auto;">
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- js -->
+    <script src="javascripts/jquery-3.2.1.min.js"></script>
+    <script src="javascripts/jquery-ui.min.js"></script>
+    <script src="javascripts/popper.min.js"></script>
+    <script src="javascripts/bootstrap.min.js"></script>
+    <script src="javascripts/bootstrap.bundle.min.js"></script>
+    <script src="javascripts/sb-admin-2.min.js"></script>
+    <script src="javascripts/lobipanel.min.js"></script>
+    <script src="javascripts/metisMenu.min.js"></script>
+    <script src="javascripts/echarts.js"></script>
+
+    <script>
+        (() => {
+            var dashboards = <%- JSON.stringify(dashboards) %>
+                dashboards.forEach((dashboard) => {
+                    var div = $('<div>', {
+                        class: 'list-group-item border'
+                    }).appendTo($('#dashboards'))
+
+                    var a = $('<a>', {
+                        href: '/dashboard/' + dashboard._id,
+                        target: '_blank'
+                    }).text(dashboard.name).appendTo(div)
+                })
+            var points = <%- JSON.stringify(points) %>
+                points.forEach((point) => {
+                    var div = $('<div>', {
+                        class: 'list-group-item border'
+                    }).appendTo($('#datapoints'))
+
+                    var span = $('<span>', {
+                        class: ''
+                    }).text(point).appendTo(div)
+
+                    var deleteButton = $('<i>', {
+                        class: 'fa fa-trash clickable',
+                        'aria-hidden': true
+                    }).appendTo(span).css('margin-left', '10px')
+
+
+                    deleteButton.click((event) => {
+                        if (confirm("Are you sure you want to delete all data for this point?\nThis cannot be undone.")) {
+                             $.ajax({
+                                 url: '/api/data/' + point.point,
+                                 type: 'DELETE',
+                             }).done(function (req) {
+                                 location.reload()
+                             })
+                        }
+                    })
+
+
+                })
+        })()
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":2,"key":{"_id":1},"name":"_id_","ns":"bpd.f200"},{"v":2,"unique":true,"key":{"point":1,"ts":1},"name":"point_1_ts_1","ns":"bpd.f200","background":true}],"uuid":"fc889d64413a45258ed671393203ca22"}

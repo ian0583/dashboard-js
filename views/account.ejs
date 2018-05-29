@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>
+		<%=title%>
+	</title>
+
+	<base href="/">
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="stylesheets/bootstrap.min.css">
+	<link rel="stylesheet" href="stylesheets/font-awesome.min.css">
+
+	<link rel="stylesheet" href="stylesheets/style.css">
+
+	<link rel="shortcut icon" href="favicon.ico">
+</head>
+
+<body>
+
+	<!-- Navigation -->
+	<nav class="navbar navbar-default" role="navigation" style="margin-bottom: 0; max-height: 10vh">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="/home">
+				<%= title %>
+			</a>
+		</div>
+		<!-- /.navbar-header -->
+		<ul class="nav navbar-top-links navbar-right">
+			<li>
+				<a href="settings">
+					<i class="fa fa-gear fa-fw"></i> Settings </a>
+			</li>
+			<li>
+				<a href="account">
+					<i class="fa fa-user fa-fw"></i> Account Management </a>
+			</li>
+			<li>
+				<a href="login">
+					<i class="fa fa-sign-out fa-fw"></i> Logout</a>
+			</li>
+		</ul>
+		<!-- /.navbar-top-links -->
+	</nav>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-10 offset-1">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3>User Settings</h3>
+					</div>
+					<div class="panel-body">
+						<h4>
+							<% if (!user.sub.type || user.sub.type < 0) { %> Free
+								<% } else { %> Paid
+									<% } %> Subscription
+						</h4>
+						<p>
+							<%- user.sub.dashboard ? user.sub.dashboard : 1 %> Dashboards and
+								<%- user.sub.datasource ? user.sub.datasource : 5 %> Datasources</p>
+						<select name="os0" id="priceSelector" class="form-control">
+							<% for (var i = 0; i < options.length; i++) { %>
+								<option value="<%=options[i].value%>" <% if (options[i].selected) { %> selected
+									<% } %> >
+										<%=options[i].text%>
+								</option>
+								<% } %>
+						</select>
+						<form id="paymentOption" class="form-inline">
+							<div class="form-check form-check-inline">
+								<p class="form-control-plaintext">Renew subscription for </p>
+							</div>
+							<div class="form-check form-check-inline">
+								<input type="radio" id="customRadio1" name="optionRadio" class="form-check-input" checked value="1">
+								<label class="form-check-label" for="customRadio1">1 Month</label>
+							</div>
+							<div class="form-check form-check-inline">
+								<input type="radio" id="customRadio2" name="optionRadio" class="form-check-input" value="12">
+								<label class="form-check-label" for="customRadio2">1 Year</label>
+							</div>
+						</form>
+
+						<div id="paypal-button"></div>
+					</div>
+					<hr/>
+					<div class="panel-body">
+						<h4>Change your password</h4>
+					</div>
+					<div class="panel-body">
+						<form role="form" method="POST">
+							<fieldset>
+								<div class="form-group">
+									<label for="exampleInputPassword1">Old Password</label>
+									<input type="password" class="form-control" id="oldpassword" name="oldpassword" placeholder="Password" required minlength="8">
+								</div>
+								<div class="form-group">
+									<label for="exampleInputPassword1">New Password</label>
+									<input type="password" class="form-control" id="password" name="password" placeholder="Password" required minlength="8">
+								</div>
+								<div class="form-group">
+									<label for="exampleInputPassword1">Confirm Password</label>
+									<input type="password" class="form-control" id="password2" name="password2" placeholder="Re-type your password" required
+									 minlength="8">
+								</div>
+								<button type="submit" class="btn btn-lg btn-primary btn-block">Change password</button>
+
+							</fieldset>
+						</form>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- js -->
+	<script src="javascripts/jquery-3.2.1.min.js"></script>
+	<script src="javascripts/jquery-ui.min.js"></script>
+	<script src="javascripts/popper.min.js"></script>
+	<script src="javascripts/bootstrap.min.js"></script>
+	<script src="javascripts/bootstrap.bundle.min.js"></script>
+	<script src="javascripts/jquery.validate.js"></script>
+	<script src="javascripts/additional-methods.js"></script>
+	<script src="https://www.paypalobjects.com/api/checkout.js"></script>
+
+	<script>
+		(() => {
+			$("#registrationForm").validate({
+				rules: {
+					password: "required",
+					password2: {
+						equalTo: "#password"
+					},
+				}
+			})
+			if (!('<%=errMsg%>'))
+			{
+				alert ('<%=errMsg%>')
+			}
+		})()
+
+		paypal.Button.render({
+			env: 'sandbox',
+			style: {
+				label: 'checkout',
+				tagline: false,
+				size: 'responsive',
+				shape: 'rect',
+				color: 'silver'
+			},
+			client: {
+				sandbox: 'AVtMO6KrCHUIJbc7LmUJBI9plxfK1TblHmpN2GSplAunNJycEmBmLSfPDjiYSzMJcbojySuf-SNj1IXH',
+				production: '',
+			},
+			commit: true,
+			payment: (data, actions) => {
+				var amount = (($("#priceSelector").val() * 5) + 20) * $('#paymentOption').find('input[name=optionRadio]:checked').val()
+				if (amount < 1) {
+					var params = {
+						id : '<%=user._id%>',
+					}
+					$.ajax({
+						url: '/cancel',
+						type: 'post',
+						contentType: 'application/json',
+						data: JSON.stringify(params),
+						dataType: 'json'
+					}).done(function (req) {
+						if (req.errMsg) {
+							alert(req.errMsg)
+						}
+						else {
+							location.href = '/success'
+						}
+					});
+				} else {
+					return actions.payment.create({
+						payment: {
+							transactions: [{
+								amount: { total: amount, currency: 'USD' },
+								custom: '<%=user._id%>',
+							}]
+						},
+						experience: {
+							input_fields: {
+								no_shipping: 1
+							}
+						}
+					})
+				}
+			},
+			onAuthorize: (data, actions) => {
+				return actions.payment.execute().then(() => {
+					var params = data
+					params.quantity = $('#paymentOption').find('input[name=optionRadio]:checked').val() * 1
+					params.amount = (($("#priceSelector").val() * 5) + 20) * $('#paymentOption').find('input[name=optionRadio]:checked').val()
+					params.currency = 'USD'
+					params.custom = '<%=user._id%>'
+					$.ajax({
+						url: '/success',
+						type: 'post',
+						contentType: 'application/json',
+						data: JSON.stringify(params),
+						dataType: 'json'
+					}).done(function (req) {
+						if (req.errMsg) {
+							alert(req.errMsg)
+						}
+						else {
+							location.href = '/success'
+						}
+					});
+				})
+			}
+
+		}, '#paypal-button')
+		/*
+		<form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
+			<!-- <input type="hidden" name="cmd" value="_xclick-subscriptions"> -->
+			<input type="hidden" name="cmd" value="_xclick">
+			<input type="hidden" name="business" value="bpd-new@bulletproofdev.com">
+			<input type="hidden" name="item_name" value="Paid Subscription">
+			<input type="hidden" name="item_number" value="paid">
+			<input type="hidden" name="rm" value="2">
+			<input type="hidden" name="no_note" value="1">
+			<input type="hidden" name="custom" value="<%=user._id%>">
+			<input type="hidden" name="return" value="http://dashboard.bulletproofdev.com/success">
+			<input type="hidden" name="amount" value="20.00">
+			<input type="hidden" name="no_shipping" value="1">
+			<input type="hidden" name="quantity" value="1">
+			<!-- <input type="hidden" name="a3" value="20.00">
+			<input type="hidden" name="p3" value="1">
+			<input type="hidden" name="t3" value="M"> -->
+
+			<!-- <input type="hidden" name="hosted_button_id" value="63BZTLUMUYZ2G"> -->
+			<input type="submit" class="btn btn-primary btn-block" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!"
+				value="Change Plan">
+			<img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+		</form>
+		*/
+
+	</script>
+
+</body>
+
+</html>

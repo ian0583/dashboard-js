@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>
+        <%=title%>
+    </title>
+
+    <!-- Bootstrap core CSS -->
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="stylesheets/bootstrap.min.css">
+    <link rel="stylesheet" href="stylesheets/font-awesome.min.css">
+    <link rel="stylesheet" href="stylesheets/jquery-ui.min.css">
+
+    <link rel="shortcut icon" href="favicon.ico">
+
+    <!-- Custom fonts for this template -->
+    <link href="stylesheets/lib/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
+    <!-- Custom styles for this template -->
+    <link href="stylesheets/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <%=title%>
+            </a>
+            <a class="btn btn-primary" href="/login">Sign In</a>
+        </div>
+    </nav>
+
+    <!-- Content -->
+
+    <div class="container bottom">
+        <div class="row">
+            <nav class="col-sm-3 col-md-2 d-none d-sm-block sidebarnav">
+                <ul class="nav nav-pills flex-column ">
+                    <li class="nav">
+                        <a class="nav-link" href="#overview">Overview</a>
+                    </li>
+                </ul>
+                <a href="#2-1" class="nav-link">Using the API</a>
+                <hr>
+                <ul class="nav nav-pills flex-column ">
+                    <!-- <li class="nav-item"><a class="nav-link" href="#gettingstarted">Getting started</a></li> -->
+                    <li class="nav-link">
+                        <a class="nav-link" href="#2-1">Register</a>
+                    </li>
+                    <li class="nav-link">
+                        <a class="nav-link" href="#2-2">Sending your data</a>
+                    </li>
+                    <li class="nav-link">
+                        <a class="nav-link" href="#2-3">Format</a>
+                    </li>
+                </ul>
+
+                <a class="nav-link" href="#3-1">Series Data Points</a>
+                <hr>
+                <ul class="nav nav-pills flex-column ">
+                    <li class="nav-link">
+                        <a class="nav-link" href="#3-1">Line</a>
+                    </li>
+                    <li class="nav-link">
+                        <a class="nav-link" href="#3-1">Bar</a>
+                    </li>
+                    <li class="nav-link">
+                        <a class="nav-link" href="#3-1">Scatter</a>
+                    </li>
+                    <li class="nav-link">
+                        <a class="nav-link" href="#3-2">Tree</a>
+                    </li>
+                    <li class="nav-link">
+                        <a class="nav-link" href="#3-3">Treemap</a>
+                    </li>
+                    <li class="nav-link">
+                        <a class="nav-link" href="#3-4">Pie</a>
+                    </li>
+                    <li class="nav-link">
+                        <a class="nav-link" href="#3-5">Radar</a>
+                    </li>
+                    <li class="nav-link">
+                        <a class="nav-link" href="#3-6">Boxplot</a>
+                    </li>
+                    <li class="nav-link">
+                        <a class="nav-link" href="#3-9">Candlestick</a>
+                    </li>
+                    <li class="nav-link">
+                        <a class="nav-link" href="#3-7">Heatmap</a>
+                    </li>
+                    <li class="nav-link">
+                        <a class="nav-link" href="#3-8">Gauge</a>
+                    </li>
+                </ul>
+
+                <a class="nav-link" href="#4-1">Chart options</a>
+                <hr>
+
+            </nav>
+
+            <main role="main" class="col-sm-9 ml-sm-auto col-md-10 pt-3">
+                <br/><br/>
+
+                <h4 id="overview">Overview</h4>
+                <section class="row bottom">
+                    <div class="col-12">
+                        <p>The
+                            <i><%=title%></i> API allows you to send data from your devices to your own fully customizable dashboard for
+                                easy access and management.</p>
+                    </div>
+                </section>
+
+                <!-- <h4 id="gettingstarted">Getting started</h4> -->
+                <section id="2-1" class="row">
+                    <div class="col-12">
+                        <h4>Register</h4>
+                        <p>You need to register to be able to use the
+                            <i><%=title%></i> API. To register simply click
+                                <a href="register">here</a>.</p>
+                    </div>
+                </section>
+
+                <br/><br/>
+
+                <section id="2-2" class="row">
+                    <div class="col-12">
+                        <h4>Sending your data</h4>
+                        <p>You can send your data to our servers via HTTP post request to the
+                            <%=title%> URL. You need to include the basic authentication headers and set your account's username and password as the
+                                credentials.
+                        </p>
+                        <p>
+                            You can also post your data using our DashboardPoster app (<a href="files/win-installer/Dashboard%20DataposterSetup.exe">Windows</a> | <a href="files/deb-installer/dashboard-dataposter_0.0.1_amd64.deb">Linux</a>) which supports the following device(s):
+                        </p>
+                        <div class="col">
+                            <ul class="list-group">
+                                <li class="list-group-item">RLE Technologies F200</li>
+                            </ul>
+                        </div>
+                        <br />
+                    </div>
+                </section>
+
+                <br/><br/>
+
+                <section id="2-3" class="row">
+                    <div class="col-12">
+                        <h4>Format</h4>
+                        <p>Create an HTTP POST request body and make sure you have the following required parameters</p>
+                        <table class="table table-bordered table-dark">
+                            <tr>
+                                <th>Parameters</th>
+                                <th>Description</th>
+                            </tr>
+                            <tr>
+                                <td>value</td>
+                                <td>(String) The data point's value</td>
+                            </tr>
+                            <tr>
+                                <td>isAlarm</td>
+                                <td>(Boolean) Indicates whether the value is on alarm or normal state</td>
+                            </tr>
+
+                        </table>
+
+                        <p>API url:</p>
+                        <p class="alert alert-dark">
+                            <%=api%>
+                                <span class="text-success">[device]</span>/
+                                <span class="text-success">[point]</span>
+                        </p>
+                        <p>Where the
+                            <span class="text-success">[device]</span> is the name of the device and
+                            <span class="text-success">[point]</span> is the name of the data point. The device name can be grouped using underscores( _ ) for better
+                            data representation.</p>
+                        <p>For example:</p>
+                        <p>[Branch_mainoffice_room1]</p>
+                        <p>[Branch_mainoffice_room2]</p>
+                        <p>[Branch_store1_entrance]</p>
+                        <p>[Branch_store1_exit]</p>
+
+                        <hr>
+                        <p>Here is an example of HTTP POST body:</p>
+                        <p class="alert alert-dark">value=25&isAlarm=false</p>
+                    </div>
+                </section>
+                <section id="2-3" class="row">
+                    <div class="col-12">
+                        <h4>Sample code in nodejs</h4>
+                        <pre class="bg-dark"><code class="text-light">
+            var request = <span class="text-info">require</span>(<span class="text-success">'request'</span>)
+
+            var options = {
+                method: <span class="text-success">'POST'</span>,
+                uri: <span class="text-success">'<%=api%>devicename/Temperature'</span>,
+                auth: {
+                    user: <span class="text-success">'username'</span>,
+                    pass: <span class="text-success">'password'</span>,
+                },
+                form: {
+                    value: <span class="text-primary">25</span>,
+                    isAlarm: <span class="text-primary">false</span>,
+                }
+            }
+            <span class="text-info">request</span>(options, function (error, response, body) {
+                if (error) {
+                }
+                else {
+                    if (response.statusCode == <span class="text-primary">200</span>) {
+                        <span class="text-success">// Data posted</span>
+                    }
+                }
+            })
+                        </code></pre>
+                    </div>
+                </section>
+                <section id="2-4" class="row">
+                    <div class="col-12">
+                        <h4>Sample code in PHP</h4>
+                        <pre class="bg-dark">
+                            <code class="text-light">
+            <span class="text-warning">&lt?php</span>
+                $user = <span class="text-success">'username'</span>;
+                $password = <span class="text-success">'password'</span>;
+                $arr_post_body = <span class="text-primary">array</span>(
+                    <span class="text-success">'value'</span> => <span class="text-primary">25</span>,
+                    <span class="text-success">'isAlarm'</span> => <span class="text-primary">false</span>,
+                );
+            
+                $URL = <span class="text-success">'<%=api%>devicename/Temperature'</span>;
+                $headers = <span class="text-primary">array</span>(
+                    <span class="text-success">'Content-Type:application/json'</span>,
+                    <span class="text-success">'Authorization: Basic '</span>. <span class="text-info">base64_encode</span>(<span class="text-success">"$user:$password"</span>)
+                )
+            
+                $curl_handler = <span class="text-primary">curl_init</span>();
+                <span class="text-primary">curl_setopt</span>($curl_handler, CURLOPT_HTTPHEADER, $headers);
+                <span class="text-primary">curl_setopt</span>($curl_handler, CURLOPT_URL, $URL);
+                <span class="text-primary">curl_setopt</span>($curl_handler, CURLOPT_POST, <span class="text-primary">count</span>($arr_post_body));
+                <span class="text-primary">curl_setopt</span>($curl_handler, CURLOPT_RETURNTRANSFER, <span class="text-primary">TRUE</span>);
+                $response = <span class="text-primary">curl_exec</span>($curl_handler);
+                <span class="text-primary">curl_close</span>($curl_handler);
+            
+                <span class="text-danger">exit</span>(<span class="text-primary">0</span>);
+            <span class="text-warning">?></span>
+                            </code>
+                        </pre>
+                    </div>
+
+                </section>
+
+                <hr>
+                <section id="3-1" class="row">
+                    <div class="col-12">
+                        <h4>Series data points</h4>
+                        <p>To display data on your dashboard, you need to assign data point(s) for every series in your widgets.
+                            Every series has different data formats. Note that you can also use data from external sources but make
+                            sure it follows the series' data format. Here are the formats needed for each series.</p>
+                    </div>
+                </section>
+                <hr>
+                <section id="3-1" class="row">
+                    <div class="col-12">
+                        <h4>Line series, Bar series, Scatter series</h4>
+                        <p>
+                            <%=graph%>default/
+                                <span class="text-success">[device]</span>/
+                                <span class="text-success">[point]</span>
+                        </p>
+                        <p>Sample data:</p>
+                        <pre class="bg-secondary text-white">
+                            <code>
+                [
+                    {
+                        "point": "Temp",
+                        "value": "24",
+                        "valueNum": 24,
+                        "isAlarm": false,
+                        "ts": "2018-01-08T23:59:30.000Z"
+                    },
+                    {
+                        "point": "Temp",
+                        "value": "24",
+                        "valueNum": 24,
+                        "isAlarm": false,
+                        "ts": "2018-01-08T23:59:00.000Z"
+                    },
+                    {
+                        "point": "Temp",
+                        "value": "18",
+                        "valueNum": 18,
+                        "isAlarm": false,
+                        "ts": "2018-01-08T23:58:30.000Z"
+                    },
+                    {
+                        "point": "Temp",
+                        "value": "21",
+                        "valueNum": 21,
+                        "isAlarm": false,
+                        "ts": "2018-01-08T23:58:00.000Z"
+                    }
+                ]
+                            </code>
+                        </pre>
+                    </div>
+
+                    <div class="col-4" id="lineseries" style="height: 300px;"></div>
+                    <div class="col-4" id="barseries" style="height: 300px;"></div>
+                    <div class="col-4" id="scatterseries" style="height: 300px;"></div>
+
+                </section>
+                <hr>
+                <section id="3-2" class="row">
+                    <div class="col-12">
+                        <h4>Tree series</h4>
+                        <p>
+                            <%=graph%>tree/
+                                <span class="text-success">[point]</span>?
+                                <span class="text-success">(filter)</span>
+                        </p>
+                        <p>
+                            <span class="text-success">(filter)</span> : filter devices by group.</p>
+                        <p class="alert alert-dark">
+                            <%=graph%>tree/Power?filter=Branch_store1
+                                <br />
+                                <br /> Only data from the given point (Power) from the following devices will be processed
+                                <br /> [Branch_store1_entrance]
+                                <br /> [Branch_store1_exit]
+                                <br /> Refer to this
+                                <a href="#2-3">section</a> for the grouping of the device names
+                                <br />
+                                <br /> You can set multiple filters by using filter[] parameter
+                                <br />
+                                <%=graph%>pie/Temparature?filter[]=Branch_store1&filter[]=Branch_mainoffice
+                                    <br />
+                                    <br />
+                        </p>
+                        <p>Sample data:</p>
+                        <pre class="bg-secondary text-white">
+                            <code>
+                {
+                    "name": "Power",
+                    "children": [
+                        {
+                            "name": "Branch",
+                            "children": [
+                                {
+                                    "name": "store1",
+                                    "children": [  
+                                        {
+                                            "name": "room3",
+                                            "value": 1544
+                                        },
+                                        {
+                                            "name": "room2",
+                                            "value": 4985
+                                        },
+                                        {
+                                            "name": "room1",
+                                            "value": 4497
+                                        }
+                                    ]
+                                },{
+                                    "name": "store2",
+                                    "children": [  
+                                        {
+                                            "name": "room3",
+                                            "value": 1544
+                                        },
+                                        {
+                                            "name": "room2",
+                                            "value": 4985
+                                        },
+                                        {
+                                            "name": "room1",
+                                            "value": 4497
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+                            </code>
+                        </pre>
+                    </div>
+                    <div class="col-12" id="treeseries" style="height: 300px;"></div>
+                </section>
+                <hr>
+                <section id="3-3" class="row">
+                    <div class="col-12">
+                        <h4>Treemap series</h4>
+                        <p>
+                            <%=graph%>treemap/
+                                <span class="text-success">[point]</span>
+                        </p>
+                        <p>
+                            <span class="text-success">(filter)</span> : filter devices by group.</p>
+                        <p class="alert alert-dark">
+                            <%=graph%>treemap/Power?filter=Branch_store1
+                                <br />
+                                <br /> Only data from the given point (Power) from the following devices will be processed
+                                <br /> [Branch_store1_entrance]
+                                <br /> [Branch_store1_exit]
+                                <br /> Refer to this
+                                <a href="#2-3">section</a> for the grouping of the device names
+                                <br />
+                                <br /> You can set multiple filters by using filter[] parameter
+                                <br />
+                                <%=graph%>pie/Temparature?filter[]=Branch_store1&filter[]=Branch_mainoffice
+                                    <br />
+                                    <br />
+                        </p>
+                        <p>Sample data:</p>
+                        <pre class="bg-secondary text-white">
+                            <code>
+                {
+
+
+                    "name": "Branch",
+                    "path": "Branch",
+                    "children": [
+                        {
+                            "name": "store1",
+                            "path": "Branch/store1",
+                            "children": [  
+                                {
+                                    "name": "room3",
+                                    "path": "Branch/store1/room3",
+                                    "value": 1544
+                                },
+                                {
+                                    "name": "room2",
+                                    "path": "Branch/store1/room2",
+                                    "value": 4985
+                                },
+                                {
+                                    "name": "room1",
+                                    "path": "Branch/store1/room1",
+                                    "value": 4497
+                                }
+                            ],
+                            "value": 11026
+                        },
+                        {
+                            "name": "store2",
+                            "path": "Branch/store1",
+                            "children": [  
+                                {
+                                    "name": "room3",
+                                    "path": "Branch/store1/room3",
+                                    "value": 1000
+                                },
+                                {
+                                    "name": "room2",
+                                    "path": "Branch/store1/room2",
+                                    "value": 2000
+                                },
+                                {
+                                    "name": "room1",
+                                    "path": "Branch/store1/room1",
+                                    "value": 3000
+                                }
+                            ],
+                            "value": 6000
+                        },
+                    
+                    ],
+                    "value" : 17026
+                }
+                            </code>
+                        </pre>
+                    </div>
+                    <div class="col-4"></div>
+                    <div class="col-4" id="treemapseries" style="height: 500px;"></div>
+                    <div class="col-4"></div>
+                </section>
+                <hr>
+                <section id="3-4" class="row">
+                    <div class="col-12">
+                        <h4>Pie series</h4>
+                        <p>
+                            <%=graph%>pie/
+                                <span class="text-success">[point]</span>?
+                                <span class="text-success">(filter)</span>
+                        </p>
+                        <p>
+                            <span class="text-success">(filter)</span> : filter devices by group.</p>
+                        <p class="alert alert-dark">
+                            <%=graph%>pie/Temparature?filter=Branch_store1
+                                <br />
+                                <br /> Only data from the given point (temperature) from the following devices will be processed
+                                <br /> [Branch_store1_entrance]
+                                <br /> [Branch_store1_exit]
+                                <br /> Refer to this
+                                <a href="#2-3">section</a> for the grouping of the device names
+                                <br />
+                                <br /> You can set multiple filters by using filter[] parameter
+                                <br />
+                                <%=graph%>pie/Temparature?filter[]=Branch_store1&filter[]=Branch_mainoffice
+                                    <br />
+                                    <br />
+                        </p>
+                        <p>Sample data:</p>
+                        <pre class="bg-secondary text-white">
+                            <code>
+                [
+                    {
+                        "value": "23",
+                        "name": "Branch_store1_room1"
+                    },
+                    {
+                        "value": "18",
+                        "name": "Branch_store1_room2"
+                    },
+                    {
+                        "value": "19",
+                        "name": "Branch_store1_entrance"
+                    },
+                    {
+                        "value": "20",
+                        "name": "Branch_mainoffice_room1"
+                    },
+                    {
+                        "value": "25",
+                        "name": "Branch_mainoffice_room2"
+                    },
+                    {
+                        "value": "20",
+                        "name": "Branch_mainoffice_lobby"
+                    }
+                ]
+                            </code>
+                        </pre>
+                    </div>
+                    <div id="pieseries" class="col" style="height: 300px;"></div>
+                </section>
+                <hr>
+                <section id="3-5" class="row">
+                    <div class="col-12">
+                        <h4>Radar series</h4>
+                        <p>
+                            <%=graph%>radar/
+                                <span class="text-success">[device]</span>
+                        </p>
+                        <p class="alert alert-dark">
+                            <%=graph%>radar/Branch_store1_entrance
+                                <br />
+                                <br /> Get all the latest value points from Branch_store1_entrance.
+                                <br />
+                        </p>
+                        <p>Sample data:</p>
+                        <pre class="bg-secondary text-white">
+                            <code>
+                [
+                    {
+                        "value": "20",
+                        "point": "Temperature"
+                    },
+                    {
+                        "value": "4497",
+                        "point": "Power"
+                    },
+                    {
+                        "value": "51",
+                        "point": "Humidity"
+                    }
+                ]
+                            </code>
+                        </pre>
+                    </div>
+                    <div id="radarseries" class="col" style="height: 300px;"></div>
+                </section>
+                <hr>
+                <section id="3-6" class="row">
+                    <div class="col-12">
+                        <h4>Boxplot series</h4>
+                        <p>
+                            <%=graph%>boxplot/
+                                <span class="text-success">[device]</span>/
+                                <span class="text-success">[point]</span>?
+                                <span class="text-success">(filter)</span>
+                        </p>
+                        <p>
+                            <span class="text-success">(filter)</span> : type (hourly or daily). days (number of days)</p>
+                        <p class="alert alert-dark">
+                            <%=graph%>boxplot/Branch_store1_entrance/Temperature?type=hourly&days=1
+                                <br />
+                                <br /> Only data from the given point (temperature) from Branch_store1_entrance with the average hourly data for a period of 1 day will be processed
+                                <br />
+                        </p>
+                        <p>Sample data:</p>
+                        <pre class="bg-secondary text-white">
+                            <code>
+                {
+                    "axis": [
+                        "2018-01-06 00:00:00",
+                        "2018-01-07 00:00:00",
+                        "2018-01-08 00:00:00"
+                    ],
+                    "data": [
+                        [18, 19.984375, 21.96875, 23.984375, 26], [18, 19.96, 21.93, 23.96, 26], [18, 20.02, 22.05, 24.05, 26]
+                    ]
+                }
+                    
+                            </code>
+                        </pre>
+                    </div>
+                    <div class="col-12" id="boxplotseries" style="height: 300px;"></div>
+                </section>
+                <hr>
+                <section id="3-9" class="row">
+                    <div class="col-12">
+                        <h4>Candlestick series</h4>
+                        <p>
+                            <%=graph%>candlestick/
+                                <span class="text-success">[device]</span>/
+                                <span class="text-success">[point]</span>?
+                                <span class="text-success">(filter)</span>
+                        </p>
+                        <p>
+                            <span class="text-success">(filter)</span> : type (hourly or daily). days (number of days)</p>
+                        <p class="alert alert-dark">
+                            <%=graph%>candlestick/Branch_store1_entrance/Temperature?type=hourly&days=1
+                                <br />
+                                <br /> Only temperature point from Branch_store1_entrance with hourly data in 1 day will show
+                                <br />
+                        </p>
+                        <p>Sample data:</p>
+                        <pre class="bg-secondary text-white">
+                                <code>
+            {
+                "axis": [
+                    "2018-01-06 00:00:00",
+                    "2018-01-07 00:00:00",
+                    "2018-01-08 00:00:00"
+                ],
+                "data": [
+                    [19, 21, 16, 26], [22, 19, 17, 25], [18, 21, 16, 26]
+                ]
+            }
+                                </code>
+                            </pre>
+                    </div>
+                    <div class="col-12" id="candlestickseries" style="height: 300px;"></div>
+                </section>
+                <hr>
+                <section id="3-7" class="row">
+                    <div class="col-12">
+                        <h4>Heatmap series</h4>
+                        <p>
+                            <%=graph%>heatmap/
+                                <span class="text-success">[device]</span>/
+                                <span class="text-success">[point]</span>/
+                                <span class="text-success">(option)</span>
+                        </p>
+                        <p>
+                            <span class="text-success">(option)</span> : monthly or daily.</p>
+                        <p class="alert alert-dark">
+                            <%=graph%>heatmap/Branch_store1_entrance/Temperature/daily
+                                <br />
+                                <br /> Only data from the given point (temperature) from Branch_store1_entrance with the average hourly data for 7 days will be processed
+                                <br />
+                        </p>
+                        <p>Sample data:</p>
+                        <pre class="bg-secondary text-white">
+                            <code>
+                {
+                    "x": {
+                        "type": "category",
+                        "data": [
+                            "0000",
+                            "0100",
+                            "0200",
+                        ]
+                    },
+                    "y": {
+                        "type": "category",
+                        "data": [
+                            "2018-01-02",
+                            "2018-01-03",
+                            "2018-01-04",
+                            "2018-01-05",
+                        ]
+                    },
+                    "data": [
+                        [0, 1, 21.86], [0, 2, 31.85], [1, 3, 11.96],
+                    ]
+                }
+                            </code>
+                        </pre>
+                    </div>
+                    <div class="col-12" id="heatmapseries" style="height: 300px;"></div>
+                </section>
+                <hr>
+                <section id="3-8" class="row">
+                    <div class="col-12">
+                        <h4>Gauge series</h4>
+                        <p>
+                            <%=graph%>gauge/
+                                <span class="text-success">[device]</span>/
+                                <span class="text-success">[point]
+                                    <p class="alert alert-dark">
+                                        <%=graph%>gauge/Branch_store1_entrance/Temperature
+                                            <br />
+                                            <br /> Only the latest temperature point value from Branch_store1_entrance will be processed
+                                            <br />
+                                    </p>
+                                    <p>Sample data:</p>
+                                    <pre class="bg-secondary text-white">
+                                        <code>
+                {
+                    "point": "Temperature",
+                    "valueNum": 20
+                }
+                                        </code>
+                                    </pre>
+                    </div>
+                    <div class="col-12" id="gaugeseries" style="height: 300px;"></div>
+                </section>
+                <hr/>
+                <section id="4-1" class="row">
+                    <div class="col-12">
+                        <h4>Chart options</h4>
+                        <p>You can fully customize your charts and series by setting options (JSON format) on the create/edit
+                            widget panel</p>
+                        <p>Here are some commonly used options. To know more about chart and series options you can read the
+                            documentation 
+                            <a href="<%=echartDocOptions%>" target="_blank">here</a>
+                        </p>
+                        <p>Sample data:</p>
+                        <pre class="bg-secondary text-white">
+                                <code>
+            title: {
+
+                show: true,
+                text: '',
+                left: 'center',
+                textStyle: {
+                    color: '#ccc'
+                }
+            },
+            backgroundColor: '#161627',
+                                </code>
+                            </pre>
+                        <p>title.show : (boolean) : Specifies whether to show the title compponent.</p>
+                        <p>title.text : (string) : The main title text.</p>
+                        <p>title.left : (string | number) : Distance between grid component and the left side of the container.</p>
+                        <p>title.textStyle.color : (color) : Main title text color</p>
+                        <p>backgroundColor : (color) : Sets the chart's background color</p>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
+                    <ul class="list-inline mb-2">
+                        <li class="list-inline-item">
+                            <a href="/aboutus">About</a>
+                        </li>
+                        <li class="list-inline-item">&sdot;</li>
+                        <li class="list-inline-item">
+                            <a href="/contact">Contact</a>
+                        </li>
+                        <li class="list-inline-item">&sdot;</li>
+                        <li class="list-inline-item">
+                            <a href="/termsofuse">Terms of Use</a>
+                        </li>
+                        <li class="list-inline-item">&sdot;</li>
+                        <li class="list-inline-item">
+                            <a href="/privacypolicy">Privacy Policy</a>
+                        </li>
+                        <li class="list-inline-item">&sdot;</li>
+                        <li class="list-inline-item">
+                            <a href="/docs">Docs</a>
+                        </li>
+                    </ul>
+                    <p class="text-muted small mb-4 mb-lg-0">&copy; Bulletproofdev.com Inc. 2018. All Rights Reserved.</p>
+                </div>
+                <div class="col-lg-6 h-100 text-center text-lg-right my-auto">
+                    <ul class="list-inline mb-0">
+                        <li class="list-inline-item mr-3">
+                            <a href="#">
+                                <i class="fa fa-facebook fa-2x fa-fw"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item mr-3">
+                            <a href="#">
+                                <i class="fa fa-twitter fa-2x fa-fw"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#">
+                                <i class="fa fa-instagram fa-2x fa-fw"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- js -->
+    <script src="/javascripts/jquery-3.2.1.min.js"></script>
+    <script src="/javascripts/jquery-ui.min.js"></script>
+    <script src="/javascripts/popper.min.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/bootstrap.bundle.min.js"></script>
+    <script src="/javascripts/sb-admin-2.min.js"></script>
+    <script src="/javascripts/lobipanel.min.js"></script>
+    <script src="/javascripts/metisMenu.min.js"></script>
+    <script src="/javascripts/echarts.js"></script>
+
+    <script>
+        (() => {
+            var chartline,
+                chartbar,
+                chartscatter,
+                charttree,
+                charttreemap,
+                chartpie,
+                chartradar,
+                chartboxplot,
+                chartheatmap,
+                chartgauge,
+                chartcandlestick,
+                option
+            chartline = echarts.init($('#lineseries').get(0))
+            option = {
+                xAxis: {
+                    type: 'time',
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [{
+                    data: [['2018-01-08 23:59:30', 24], ['2018-01-08 23:59:00', 24], ['2018-01-08 23:58:30', 18], ['2018-01-08 23:58:00', 21]],
+                    type: 'line'
+                }]
+            }
+            chartline.setOption(option)
+            option = {
+                xAxis: {
+                    type: 'time',
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [{
+                    data: [['2018-01-08 23:59:30', 24], ['2018-01-08 23:59:00', 24], ['2018-01-08 23:58:30', 18], ['2018-01-08 23:58:00', 21]],
+                    type: 'bar'
+                }]
+            }
+            chartbar = echarts.init($('#barseries').get(0))
+            chartbar.setOption(option)
+            option = {
+                xAxis: {
+                    type: 'time',
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [{
+                    data: [['2018-01-08 23:59:30', 24], ['2018-01-08 23:59:00', 24], ['2018-01-08 23:58:30', 18], ['2018-01-08 23:58:00', 21]],
+                    type: 'scatter'
+                }]
+            }
+            chartscatter = echarts.init($('#scatterseries').get(0))
+            chartscatter.setOption(option)
+            charttree = echarts.init($('#treeseries').get(0))
+            option = {
+                tooltip: {
+                    trigger: 'item',
+                    triggerOn: 'mousemove'
+                },
+                series: [
+                    {
+                        type: 'tree',
+
+                        data: [{
+                            "name": "Power",
+                            "children": [
+                                {
+                                    "name": "Branch",
+                                    "children": [
+                                        {
+                                            "name": "store1",
+                                            "children": [
+                                                {
+                                                    "name": "room3",
+                                                    "value": 1544
+                                                },
+                                                {
+                                                    "name": "room2",
+                                                    "value": 4985
+                                                },
+                                                {
+                                                    "name": "room1",
+                                                    "value": 4497
+                                                }
+                                            ]
+                                        }, {
+                                            "name": "store2",
+                                            "children": [
+                                                {
+                                                    "name": "room3",
+                                                    "value": 1544
+                                                },
+                                                {
+                                                    "name": "room2",
+                                                    "value": 4985
+                                                },
+                                                {
+                                                    "name": "room1",
+                                                    "value": 4497
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }],
+
+                        top: '1%',
+                        left: '7%',
+                        bottom: '1%',
+                        right: '20%',
+
+                        symbolSize: 7,
+
+                        label: {
+                            normal: {
+                                position: 'left',
+                                verticalAlign: 'middle',
+                                align: 'right',
+                                fontSize: 9
+                            }
+                        },
+
+                        leaves: {
+                            label: {
+                                normal: {
+                                    position: 'right',
+                                    verticalAlign: 'middle',
+                                    align: 'left'
+                                }
+                            }
+                        },
+
+                        expandAndCollapse: true,
+                        animationDuration: 550,
+                        animationDurationUpdate: 750
+                    }
+                ]
+            }
+            charttree.setOption(option)
+            charttreemap = echarts.init($('#treemapseries').get(0))
+            option = {
+                tooltip: {
+                    trigger: 'item',
+                    triggerOn: 'mousemove'
+                },
+                series: [
+                    {
+                        type: 'treemap',
+                        upperLabel: {
+                            normal: {
+                                show: true,
+                            }
+                        },
+                        levels: [{
+                            itemStyle: {
+                                normal: {
+                                    borderWidth: 5,
+                                    gapWidth: 1,
+                                    borderColorSaturation: .2
+                                }
+                            }
+                        }, {
+                            itemStyle: {
+                                normal: {
+                                    borderWidth: 5,
+                                    gapWidth: 1,
+                                    borderColorSaturation: .4
+                                }
+                            }
+                        }, {
+                            itemStyle: {
+                                normal: {
+                                    borderWidth: 5,
+                                    gapWidth: 1,
+                                    borderColorSaturation: .6
+                                }
+                            }
+                        }],
+                        data: [{
+
+
+                            "name": "Branch",
+                            "path": "Branch",
+                            "children": [
+                                {
+                                    "name": "store1",
+                                    "path": "Branch/store1",
+                                    "children": [
+                                        {
+                                            "name": "room3",
+                                            "path": "Branch/store1/room3",
+                                            "value": 1544
+                                        },
+                                        {
+                                            "name": "room2",
+                                            "path": "Branch/store1/room2",
+                                            "value": 4985
+                                        },
+                                        {
+                                            "name": "room1",
+                                            "path": "Branch/store1/room1",
+                                            "value": 4497
+                                        }
+                                    ],
+                                    "value": 11026
+                                },
+                                {
+                                    "name": "store2",
+                                    "path": "Branch/store1",
+                                    "children": [
+                                        {
+                                            "name": "room3",
+                                            "path": "Branch/store1/room3",
+                                            "value": 1000
+                                        },
+                                        {
+                                            "name": "room2",
+                                            "path": "Branch/store1/room2",
+                                            "value": 2000
+                                        },
+                                        {
+                                            "name": "room1",
+                                            "path": "Branch/store1/room1",
+                                            "value": 3000
+                                        }
+                                    ],
+                                    "value": 6000
+                                },
+
+                            ],
+                            "value": 17026
+                        }]
+                    }
+                ],
+
+            }
+            charttreemap.setOption(option)
+
+            chartpie = echarts.init($('#pieseries').get(0))
+            option = {
+                tooltip: {
+                    trigger: 'item',
+                    triggerOn: 'mousemove'
+                },
+                series: [
+                    {
+                        type: 'pie',
+                        data: [
+                            {
+                                "value": "23",
+                                "name": "Branch_store1_room1"
+                            },
+                            {
+                                "value": "18",
+                                "name": "Branch_store1_room2"
+                            },
+                            {
+                                "value": "19",
+                                "name": "Branch_store1_entrance"
+                            },
+                            {
+                                "value": "20",
+                                "name": "Branch_mainoffice_room1"
+                            },
+                            {
+                                "value": "25",
+                                "name": "Branch_mainoffice_room2"
+                            },
+                            {
+                                "value": "20",
+                                "name": "Branch_mainoffice_lobby"
+                            }
+                        ],
+                    }
+                ]
+
+            }
+            chartpie.setOption(option)
+
+            chartradar = echarts.init($('#radarseries').get(0))
+            option = {
+                tooltip: {
+                    trigger: 'item',
+                    triggerOn: 'mousemove'
+                },
+                radar: {
+                    indicator: [
+                        { name: 'Temperature', max: 60 },
+                        { name: 'Power', max: 6000 },
+                        { name: 'Humidity', max: 90 },
+                    ],
+                    shape: 'circle',
+                    splitNumber: 5,
+                    name: {
+                        textStyle: {
+                            color: 'black'
+                        }
+                    },
+                    splitArea: {
+                        show: false
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: 'rgba(238, 197, 102, 0.5)'
+                        }
+                    }
+                },
+                series: [
+                    {
+                        type: 'radar',
+                        data: [[20, 4497, 51]],
+                    },
+                ]
+            }
+            chartradar.setOption(option)
+
+            chartboxplot = echarts.init($('#boxplotseries').get(0))
+            option = {
+                tooltip: {
+                    trigger: 'item',
+                    triggerOn: 'mousemove'
+                },
+                xAxis: {
+                    data: [
+                        "2018-01-06 00:00:00",
+                        "2018-01-07 00:00:00",
+                        "2018-01-08 00:00:00"
+                    ],
+                },
+                yAxis: {
+
+                },
+                series: [
+                    {
+                        type: 'boxplot',
+                        data: [
+                            [18, 19.984375, 21.96875, 23.984375, 26], [18, 19.96, 21.93, 23.96, 26], [18, 20.02, 22.05, 24.05, 26]
+                        ]
+                    },
+                ]
+            }
+            chartboxplot.setOption(option)
+
+            chartheatmap = echarts.init($('#heatmapseries').get(0))
+            option = {
+                tooltip: {
+                    trigger: 'item',
+                    triggerOn: 'mousemove'
+                },
+                xAxis: {
+                    type: "category",
+                    data: [
+                        "0000",
+                        "0100",
+                        "0200",
+                    ]
+                },
+                yAxis: {
+                    type: "category",
+                    data: [
+                        "2018-01-02",
+                        "2018-01-03",
+                        "2018-01-04",
+                        "2018-01-05",
+                    ]
+                },
+                visualMap: {
+                    min: 0,
+                    max: 32,
+                    calculable: true,
+                    orient: 'horizontal',
+                    left: 'center',
+                    bottom: '0%'
+                },
+                series: [{
+                    type: 'heatmap',
+                    data: [
+                        [0, 1, 21.86], [0, 2, 31.85], [1, 3, 11.96]
+                    ],
+                    label: {
+                        normal: {
+                            show: true
+                        }
+                    },
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }]
+
+            }
+            chartheatmap.setOption(option)
+
+            chartgauge = echarts.init($('#gaugeseries').get(0))
+            option = {
+                tooltip: {
+                    trigger: 'item',
+                    triggerOn: 'mousemove'
+                },
+                series: [{
+                    type: 'gauge',
+                    detail: { formatter: '{value}%' },
+                    data: [{ value: 20, name: 'Temp' }]
+                }]
+            }
+            chartgauge.setOption(option)
+
+            chartcandlestick = echarts.init($('#candlestickseries').get(0))
+            option = {
+                tooltip: {
+                    trigger: 'item',
+                    triggerOn: 'mousemove'
+                },
+                xAxis: {
+                    data: [
+                        "2018-01-06 00:00:00",
+                        "2018-01-07 00:00:00",
+                        "2018-01-08 00:00:00"
+                    ],
+                },
+                yAxis: {
+
+                },
+                series: [
+                    {
+                        type: 'k',
+                        data: [
+                            [19, 21, 16, 26], [22, 19, 17, 25], [18, 21, 16, 26]
+                        ]
+                    },
+                ]
+
+            }
+            chartcandlestick.setOption(option)
+
+        })()
+    </script>
+
+</body>
+
+
+
+
+
+</html>

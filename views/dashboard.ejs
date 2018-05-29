@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>
+        <%= title %>
+    </title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesheets/font-awesome.min.css">
+    <link rel="stylesheet" href="/stylesheets/metisMenu.min.css">
+    <link rel="stylesheet" href="/stylesheets/jquery-ui.min.css">
+    <link rel="stylesheet" href="/stylesheets/tether.min.css">
+    <link rel="stylesheet" href="/stylesheets/lobicard.min.css">
+
+    <link rel="stylesheet" href="/stylesheets/style.css">
+
+    <link rel="shortcut icon" href="favicon.ico">
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default" role="navigation" style="margin-bottom: 0; max-height: 10vh">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">
+                    <%= title %>
+                </a>
+            </div>
+            <% if (showMenu) { %>
+                <!-- /.navbar-header -->
+                <ul class="nav navbar-top-links navbar-right">
+                    <li>
+                        <a href="/settings">
+                            <i class="fa fa-gear fa-fw"></i> Settings </a>
+                    </li>
+                    <li>
+                        <a href="/account">
+                            <i class="fa fa-user fa-fw"></i> Account Management </a>
+                    </li>
+                    <li>
+                        <a href="/login">
+                            <i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                    </li>
+                </ul>
+                <!-- /.navbar-top-links -->
+                <% } %>
+        </nav>
+
+        <div id="page-wrapper" style="min-height: 85vh;" class="row">
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+
+    <!-- js -->
+    <script src="/javascripts/jquery-3.2.1.min.js"></script>
+    <script src="/javascripts/jquery-ui.min.js"></script>
+    <script src="/javascripts/popper.min.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/bootstrap.bundle.min.js"></script>
+    <script src="/javascripts/sb-admin-2.min.js"></script>
+    <script src="/javascripts/tether.min.js"></script>
+    <script src="/javascripts/lobicard.js"></script>
+    <script src="/javascripts/metisMenu.min.js"></script>
+    <script src="/javascripts/echarts.js"></script>
+    <script src="/javascripts/dark.js"></script>
+
+    <script>
+        (() => {
+            var charts = []
+            var dashboard = <%- JSON.stringify(dashboard) %>
+        if (dashboard) {
+                $(document).ready(function () {
+                    document.title += ' - ' + dashboard.name
+
+                    // create cols based on dashboard.widgets.length
+                    for (var i in dashboard.widgets) {
+                        var col = $('<div/>', {
+                            class: 'col-12 col-lg-4',
+                            style: 'padding-top: 20px'
+                        }).appendTo($('#page-wrapper'))
+
+                        // insert widgets
+                        for (var j in dashboard.widgets[i]) {
+                            // create card container
+                            var card = $('<div/>', {
+                                class: 'card',
+                                "data-inner-id": "widget_" + i + "_" + j
+                            }).appendTo(col)
+
+                            var cardheader = $('<div/>', {
+                                class: 'card-header bg-primary'
+                            }).appendTo(card)
+
+                            $('<div/>', {
+                                class: 'card-title text-white'
+                            }).appendTo(cardheader).text(dashboard.widgets[i][j].name)
+
+                            var cardbody = $('<div/>', {
+                                class: 'card-body dashboard-widget'
+                            }).appendTo(card).text('').css('height', '100%')
+
+                            if (!!dashboard.widgets[i][j].options && !dashboard.widgets[i][j].textOptions) {
+                                var chart = echarts.init(cardbody.get(0), 'dark');
+                                chart.hideLoading()
+
+                                chart.setOption(dashboard.widgets[i][j].options)
+                                charts.push(chart)
+                            }
+                            else if (!!dashboard.widgets[i][j].textOptions) {
+                                var table = $('<table>', {
+                                    class: 'table table-bordered table-dark'
+                                }).appendTo(cardbody)
+
+                                dashboard.widgets[i][j].textOptions.forEach((data) => {
+                                    /*
+                                    var row = $('<div>', {
+                                        class: "row"
+                                    }).appendTo(cardbody)
+
+                                    $('<div>', {
+                                        class: "col text-right"
+                                    }).html(data.name).appendTo(row)
+                                    $('<div>', {
+                                        class: "col"
+                                    }).html(data.value).appendTo(row)
+                                    */
+                                    var tr = $('<tr>').appendTo(table)
+                                    $('<td>').text(data.name).appendTo(tr)
+                                    $('<td>').text(data.value).appendTo(tr)
+                                })
+                            }
+                        }
+                    }
+
+                    $(window).on('resize', () => {
+                        charts.forEach((chart) => {
+                            chart.resize()
+
+                        })
+                    })
+                    $('.card').on('onFullScreen.lobiCard', (ev, lobiCard) => {
+                        charts.forEach((chart) => {
+                            chart.resize()
+
+                        })
+                    }).on('onSmallSize.lobiCard', () => {
+                        charts.forEach((chart) => {
+                            chart.resize()
+                        })
+                    })
+                    $('.card').lobiCard({
+                        stateful: true,
+                        sortable: false,
+                        reload: false,
+                        close: false,
+                        editTitle: false,
+                        minimize: false,
+                        unpin: {
+                            icon: 'fa fa-arrows text-white',
+                        },
+                        expand: {
+                            icon: 'fa fa-expand text-white',
+                            icon2: 'fa fa-compress text-white',
+                        },
+
+                    })
+                })
+            }
+        })()
+    </script>
+
+</body>
+
+</html>

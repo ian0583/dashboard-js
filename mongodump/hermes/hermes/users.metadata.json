@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":2,"key":{"_id":1},"name":"_id_","ns":"hermes.users"},{"v":2,"unique":true,"key":{"email":1},"name":"email_1","ns":"hermes.users","background":true},{"v":2,"unique":true,"key":{"username":1},"name":"username_1","ns":"hermes.users","background":true}],"uuid":"fc8885d1e997461481de68db1c785610"}
